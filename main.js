@@ -1,0 +1,17 @@
+import myHeader from "./components/myHeader.js";
+import banner from "./components/banner.js";
+import myPost from "./components/myPost.js";
+import myAside from "./components/myAside.js";
+import myContent from "./components/myContent.js";
+import myContentwTable from "./components/myContentwTable.js";
+myHeader.listTitle();
+myHeader.listarClasicos();
+banner.showImage();
+banner.showSectionBanner();
+myPost.showPost();
+myAside.showAside();
+myContent.showContent();
+myContentwTable.showParte1();
+myContentwTable.listaTabla();
+myContentwTable.showParte2();
+myContentwTable.showBtns();
