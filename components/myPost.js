@@ -8,7 +8,7 @@ export default{
         image : "../img/dbz.jpeg",
         btn:{
             name:"Mas acerca de esto",
-            href:"#"
+            href:"https://dragonball.fandom.com/es/wiki/Dragon_Ball_Z"
             },
         
         article2:"One Piece",
@@ -18,7 +18,7 @@ export default{
         image2: "../img/opp.webp",
         btn2:{
           name:"Mas acerca de esto",
-          href:"#",
+          href:"https://onepiece.fandom.com/es/wiki/One_Piece_(anime)",
           },
 
         article3:"Naruto",
@@ -28,7 +28,7 @@ export default{
         image3: "../img/narutin.jpg",
         btn3:{
           name:"Mas acerca de esto",
-          href:"#",
+          href:"https://naruto.fandom.com/es/wiki/Naruto_(Anime)",
           },
         article4:"YGO",
         name4: "Yu-Gi-Oh",
@@ -37,7 +37,7 @@ export default{
         image4 : "../img/ygo.png",
         btn4:{
             name:"Mas acerca de esto",
-            href:"#"
+            href:"https://yugioh.fandom.com/es/wiki/Yu-Gi-Oh!_(Serie)"
             },
         article5:"Super Campeones",
         name5: "Super Campeones",
@@ -46,7 +46,7 @@ export default{
         image5 : "../img/sc.webp",
         btn5:{
             name:"Mas acerca de esto",
-            href:"#"
+            href:"https://supercampeones.fandom.com/es/wiki/Capit%C3%A1n_Tsubasa_(serie_de_1983)"
             }, 
         article6:"Death Note",
         name6: "Death Note",
@@ -56,7 +56,7 @@ export default{
         image6 : "../img/deathnote.webp",
         btn6:{
             name:"Mas acerca de esto",
-            href:"#"
+            href:"https://deathnote.fandom.com/es/wiki/Death_Note_(Serie)"
             }     
        } 
     ],
@@ -70,7 +70,7 @@ export default{
                   <h3 class="mb-0">${val.name}</h3>
                   <div class="mb-1 text-muted">${val.type}</div>
                   <p class="card-text mb-auto">${val.paragraph}</p>
-                  <a href="#" class="stretched-link">${val.btn.name}</a>
+                  <a href="${val.btn.href}" class="stretched-link">${val.btn.name}</a>
                </div> 
                   <div class="col-auto d-none d-lg-block ">
                     <img src="${val.image}" class="responsiveImg">
@@ -85,7 +85,7 @@ export default{
                   <h3 class="mb-0">${val.name2}</h3>
                   <div class="mb-1 text-muted">${val.type2}</div>
                   <p class="card-text mb-auto">${val.paragraph2}</p>
-                  <a href="#" class="stretched-link">${val.btn2.name}</a>
+                  <a href="${val.btn2.href}" class="stretched-link">${val.btn2.name}</a>
                </div> 
                   <div class="col-auto d-none d-lg-block ">
                     <img src="${val.image2}" class="responsiveImg">
@@ -100,7 +100,7 @@ export default{
                   <h3 class="mb-0">${val.name3}</h3>
                   <div class="mb-1 text-muted">${val.type3}</div>
                   <p class="card-text mb-auto">${val.paragraph3}</p>
-                  <a href="#" class="stretched-link">${val.btn3.name}</a>
+                  <a href="${val.btn3.href}" class="stretched-link">${val.btn3.name}</a>
                </div> 
                   <div class="col-auto d-none d-lg-block ">
                     <img src="${val.image3}" class="responsiveImg">
@@ -115,7 +115,7 @@ export default{
                   <h3 class="mb-0">${val.name4}</h3>
                   <div class="mb-1 text-muted">${val.type4}</div>
                   <p class="card-text mb-auto">${val.paragraph4}</p>
-                  <a href="#" class="stretched-link">${val.btn4.name}</a>
+                  <a href="${val.btn4.href}" class="stretched-link">${val.btn4.name}</a>
                </div> 
                   <div class="col-auto d-none d-lg-block ">
                     <img src="${val.image4}" class="responsiveImg">
@@ -130,7 +130,7 @@ export default{
                     <h3 class="mb-0">${val.name5}</h3>
                     <div class="mb-1 text-muted">${val.type5}</div>
                     <p class="card-text mb-auto">${val.paragraph5}</p>
-                    <a href="#" class="stretched-link">${val.btn5.name}</a>
+                    <a href="${val.btn5.href}" class="stretched-link">${val.btn5.name}</a>
                  </div> 
                     <div class="col-auto d-none d-lg-block ">
                       <img src="${val.image5}" class="responsiveImg">
@@ -145,7 +145,7 @@ export default{
                       <h3 class="mb-0">${val.name6}</h3>
                       <div class="mb-1 text-muted">${val.type6}</div>
                       <p class="card-text mb-auto">${val.paragraph6}</p>
-                      <a href="#" class="stretched-link">${val.btn6.name}</a>
+                      <a href="${val.btn6.href}" class="stretched-link">${val.btn6.name}</a>
                    </div> 
                       <div class="col-auto d-none d-lg-block ">
                         <img src="${val.image6}" class="responsiveImg">
