@@ -27,14 +27,27 @@ export default {
             href: "#"
         }
     ],
-    listTitle(){
-        document.querySelector("#title").insertAdjacentHTML("beforeend",` <a class="blog-header-logo text-warning" href="${this.title.href}">${this.title.name}</a>`)
-    },
-    listarClasicos(){
-        let plantilla = "";
-        this.clasicos.forEach((val, id)=>{
-            plantilla += `<a class="p-2 link-secondary" href="${val.href}">${val.name}</a>`
+
+    show(){
+        //creamos el worker
+        const ws = new Worker("storage/wsMyHeader.js",{type:"module"});
+        let id = [];
+        let count = 0;
+        //enviamos un msg al worker
+        ws.postMessage({module: "listTitle",data : this.title});
+        ws.postMessage({module : "listItems", data : this.clasicos});
+        id =[`#title`, `#clasicos`];
+        
+        //esto es lo que recibe el worker
+        ws.addEventListener("message",(e)=>{
+            //parseamos lo que trae el evento, es decir, el mensaje
+            let doc = new DOMParser().parseFromString(e.data, `text/html`);//recordar poner el html y no el xml
+
+            //insertamos el id de clasicos en nuestro html
+            document.querySelector(id[count]).append(...doc.body.children);
+
+            //terminamos el worker
+            (id.length-1==count) ? ws.terminate():count++;
         });
-        document.querySelector("#clasicos").insertAdjacentHTML("beforeend", plantilla)
-    }//<a class="p-2 link-secondary" href="#">World</a>
+    }
 }
