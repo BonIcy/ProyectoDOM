@@ -1,18 +1,28 @@
+import config from "../storage/config.js";
 export default{
-    titulo: "¿Que es un anime clasico?",
-    paragraph: "Un anime clásico es una serie de animación japonesa que se produjo en las décadas de 1960, 1970 y 1980. Estas series suelen tener un estilo de animación más tradicional y menos sofisticado que las producciones actuales. A menudo, se centran en aventuras épicas y dramáticas, con héroes que luchan contra villanos poderosos y enfrentan desafíos emocionales y morales. ",
-    btn:{
-        name:"Leer mas sobre esto...",
-        href: "https://es.wikipedia.org/wiki/Historia_del_anime"
-    },
-    image: "../img/fondito.jpg",
     showImage(){
-        document.querySelector(".imgStyle").style.backgroundImage = `url(${this.image})`;
+        config.dataBanner();
+        Object.assign(this, JSON.parse(localStorage.getItem("Banner")))
+        document.querySelector("#imgStyle").style.backgroundImage = `url(${this.cont.image})`;
     },
-    showSectionBanner(){
-        document.querySelector("#banner").insertAdjacentHTML("beforeend", `
-        <h1 class="display-4 fst-italic">${this.titulo}</h1>
-        <p class="lead my-3">${this.paragraph}</p>
-        <p class="lead mb-0"><a href="${this.btn.href}" class="text-white fw-bold">${this.btn.name}</a></p>`)
-    }
+    show(){
+        config.dataBanner();
+        Object.assign(this, JSON.parse(localStorage.getItem("Banner")));
+        //creamos el worker 
+        const ws = new Worker("storage/wsBanner.js", {type:"module"});
+        //enviamos un msg al worker
+        ws.postMessage({module: "showSectionBanner", data : this.cont});
+        let id = [`#banner`];
+        let count = 0;
+        //eso es lo que llega del worker
+        ws.addEventListener("message",(e)=>{
+            //parseamos lo que trae  el evento, o sea el msg
+            let doc = new   DOMParser().parseFromString(e.data, "text/html");
+            //insertamos en nuestro index por medio del selector id
+            document.querySelector(id[count]).append(...doc.body.children);
+            //terminamos el worker
+            (id.length-1==count) ? ws.terminate():count++;
+        });
+    },
+ 
 }

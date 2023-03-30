@@ -1,34 +1,8 @@
+import config from "../storage/config.js";
 export default {
-    title: {name:"Animes clasicos",
-            href: "#"},
-    clasicos: [
-        {
-            name: "Dragon Ball",
-            href: "#"
-        },
-        {
-            name: "One Piece",
-            href: "#"
-        },
-        {
-            name: "Naruto",
-            href: "#"
-        },
-        {
-            name: "Yu-Gi-Oh",
-            href: "#"
-        },
-        {
-            name: "Super Campeones",
-            href: "#"
-        },
-        {
-            name:"Death Note",
-            href: "#"
-        }
-    ],
-
     show(){
+        config.dataMyHeader();
+         Object.assign(this, JSON.parse(localStorage.getItem("myHeader")))
         //creamos el worker
         const ws = new Worker("storage/wsMyHeader.js",{type:"module"});
         let id = [];

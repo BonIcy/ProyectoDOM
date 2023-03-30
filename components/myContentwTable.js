@@ -1,95 +1,83 @@
+import config from "../storage/config.js";
 export default{
-    gene:{
-        title:"Razones por las que deberias ver anime",
-        dt:{
-            dte:"Marzo 24, 2023. Escrito por Jesus Martinez",
-            dteref:"https://chat.openai.com/chat", 
-       },
-       txts:{
-            p1:"Ver anime puede ser una buena opción por varias razones. En primer lugar, el anime ofrece una gran diversidad de géneros y temáticas, lo que permite que se pueda encontrar una historia que resulte interesante o entretenida para cualquier persona. Además, muchas veces el anime aborda temas profundos y complejos de una manera que puede ser difícil de encontrar en otros medios, lo que puede resultar en una experiencia de entretenimiento más rica y significativa.",
-            p2:"Otra razón para ver anime es que las animaciones japonesas suelen tener un nivel de calidad visual muy alto, con una atención al detalle y una fluidez en la animación que puede ser impresionante. Además, el anime a menudo tiene una banda sonora impactante que puede contribuir a la atmósfera y el impacto emocional de la historia.",
-            p3:"Por último, ver anime también puede ser una forma de aprender sobre la cultura y la sociedad japonesa, lo que puede ser interesante y enriquecedor desde un punto de vista educativo y cultural. En general, ver anime puede ser una experiencia de entretenimiento emocionante y significativa que ofrece una gran diversidad de historias y temáticas, un alto nivel de calidad visual y sonora, y una ventana a una cultura diferente."
-       },
-       table:{
-            tbtitle:"Algunos de los animes mas largos",
-            tbtxt:`Esto teniendo en cuenta la cantidad de capitulos y su duracion (incluyendo "relleno").`,
-            headert:{
-              n1:"Anime (Incluye todas las sagas y arcos de la franquicia hasta el momento",
-              n2:"Numero total de capitulos canon hasta la fecha",
-              n3:"Promedio de duracion de cada capitulo"
-            },
-            conts:[{
-              name:"Nintama Rantaro",
-              cant:"2169 episodios y sumando",
-              dura:"24 minutos aprox."
-            },
-            {
-              name:"Detective Conan",
-              cant:"974 episodios y sumando",
-              dura:"24-25 minutos."
-            },
-            {
-              name:"One Piece",
-              cant:"930 episodios y sumando",
-              dura:"23-24 minutos.",
-            },
-            {
-              name:"Dragon Ball",
-              cant:"575 episodios",
-              dura:"23-24 minutos."
-            },
-            {
-              name:"Bleach",
-              cant:"366 episodios",
-              dura:"24-25 minutos."
-            },
-          
-          ],
-           /*  anime:{
-                name:"Anime:",
-                cont:[{
-                    item1:"",
-                    item2:"",
-                    item3:"",
-                    item4:"",
-                    item5:"", 
-                 }]},
-            cap:{
-                name:"Numero total de capitulos hasta la fecha",
-                cont:[{
-                    item:"a",
-                    item:"e",
-                    item:"i",
-                    item:"",
-                    item:"",
-                 }]},
-            duracion:{
-                name:"Promedio de duracion de cada capitulo",
-                cont:[{
-                    item1:"",
-                    item2:"",
-                    item3:"",
-                    item4:"", 
-                 }]}, */
-        },
-        textito:"En general, la elección entre un anime corto o largo depende del tiempo y los gustos personales de cada espectador. Es importante recordar que tanto los anime cortos como los largos tienen su propio encanto y mérito, y que lo importante es encontrar una historia que se ajuste a las preferencias y gustos personales de cada uno.",
-        finaltitle:"Conclusiones",
-        finaldte:"Marzo 24, 2023. Escrito por Jesus Martinez",
-        finaltxt:"Cada persona puede elegir el tipo de anime que desea ver porque todos tenemos gustos y preferencias únicas. Cada uno tiene una perspectiva y experiencia de vida diferente, lo que influye en lo que nos gusta o nos interesa. El anime ofrece una gran variedad de géneros, temas y estilos, lo que permite que cada persona pueda encontrar algo que se adapte a sus intereses y gustos personales. Aqui algunos factores importantes que lo complementan:",
-        finallist:{
-            item1:"Cada persona tiene diferentes sensibilidades y preferencias en cuanto a la cantidad de violencia, contenido sexual, temas emocionales y otros aspectos.",
-            item2:"El anime ofrece una amplia gama de géneros y temas para satisfacer esas preferencias.",
-            item3:"Ver anime es una forma de entretenimiento, y es importante que cada persona pueda disfrutar de su tiempo de ocio de la manera que prefiera",
-        },
-        finaltxt2:"En conclusión, cada uno puede encontrar una historia que les apasione y que les proporcione una experiencia única y enriquecedora. Por lo tanto, es importante respetar los gustos y preferencias de cada persona, y permitir que cada uno disfrute de su tiempo libre de la manera que mejor le parezca.",
-        btns:{
-            b1:"Anime clasico",
-            ref1:"",
-            b2:"Anime moderno",
-            ref2:""}
-
+  show(){
+    config.dataMyContentwTable();
+    Object.assign(this, JSON.parse(localStorage.getItem("myContentwTable")))
+    //creamos el worker  
+    const ws = new Worker("storage/wsMyContentwTable.js", {type:"module"});
+    //enviamos un msg al worker
+    ws.postMessage({module: "showArt2", data : this.gene});
+    let id = [`#art2`];
+    let count = 0;
+    //eso es lo que llega del worker
+    ws.addEventListener("message",(e)=>{
+        //parseamos lo que trae  el evento, o sea el msg
+        let doc = new  DOMParser().parseFromString(e.data, "text/html");
+        //insertamos en nuestro index por medio del selector id
+        document.querySelector(id[count]).append(...doc.body.children);
+        //terminamos el worker
+        (id.length-1==count) ? ws.terminate():count++;
+    });
+  },
+    show2(){
+      config.dataMyContentwTable();
+    Object.assign(this, JSON.parse(localStorage.getItem("myContentwTable")))
+       //creamos el worker 
+       const ws = new Worker("storage/wsMyContentwTable.js", {type:"module"});
+       //enviamos un msg al worker
+       ws.postMessage({module: "showTable2", data : this.gene.tablita});
+       let id = ["#art2"];
+       let count = 0;
+       //eso es lo que llega del worker
+       ws.addEventListener("message",(e)=>{
+           //parseamos lo que trae  el evento, o sea el msg
+           let doc = new  DOMParser().parseFromString(e.data, "text/html");
+           //insertamos en nuestro index por medio del selector id
+           document.querySelector(id[count]).append(...doc.body.children);
+           //terminamos el worker
+           (id.length-1==count) ? ws.terminate():count++;
+       });
     },
-    showParte1(){
+    show3(){
+      config.dataMyContentwTable();
+    Object.assign(this, JSON.parse(localStorage.getItem("myContentwTable")))
+           //creamos el worker 
+           const ws = new Worker("storage/wsMyContentwTable.js", {type:"module"});
+           //enviamos un msg al worker
+           ws.postMessage({module: "showPart2", data : this.gene});
+           let id = [`#art2`];
+           let count = 0;
+           //eso es lo que llega del worker
+           ws.addEventListener("message",(e)=>{
+            //parseamos lo que trae  el evento, o sea el msg
+            let doc = new  DOMParser().parseFromString(e.data, "text/html");
+            //insertamos en nuestro index por medio del selector id
+            document.querySelector(id[count]).append(...doc.body.children);
+            //terminamos el worker
+            (id.length-1==count) ? ws.terminate():count++;
+           });
+    },
+    show4(){
+      config.dataMyContentwTable();
+    Object.assign(this, JSON.parse(localStorage.getItem("myContentwTable")))
+           //creamos el worker 
+           const ws = new Worker("storage/wsMyContentwTable.js", {type:"module"});
+           //enviamos un msg al worker
+           ws.postMessage({module: "showBtns", data : this.gene});
+           let id = [`#btns`];
+           let count = 0;
+           //eso es lo que llega del worker
+           ws.addEventListener("message",(e)=>{
+               //parseamos lo que trae  el evento, o sea el msg
+               let doc = new  DOMParser().parseFromString(e.data, "text/html");
+               //insertamos en nuestro index por medio del selector id
+               document.querySelector(id[count]).append(...doc.body.children);
+               //terminamos el worker
+               (id.length-1==count) ? ws.terminate():count++;
+           });
+    }
+
+   /*  showParte1(){
         document.querySelector("#art2").insertAdjacentHTML("beforeend",`
         <h2 class="blog-post-title">${this.gene.title}</h2>
         <p class="blog-post-meta"> ${this.gene.dt.dte}</p>
@@ -147,7 +135,8 @@ export default{
         document.querySelector("#btns").insertAdjacentHTML("beforeend", `
         <a class="btn btn-outline-primary" href="#">${this.gene.btns.b1}</a>
         <a class="btn btn-outline-secondary" href="#">${this.gene.btns.b2}</a>`)
-      }
+      } */
+}
     /* listartabla1(){
         Object.entries(this.gene.table).forEach((val,id) => {
             if(!typeof(this.gene.table[val[0]])=="object"){
@@ -193,4 +182,3 @@ export default{
         document.querySelector("#owo").insertAdjacentHTML("beforeend", plantilla1)
     }
 } */
-}

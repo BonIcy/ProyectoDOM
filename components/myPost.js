@@ -1,66 +1,25 @@
+import config from "../storage/config.js";
 export default{
-    post:[ 
-        {
-        article:"DBZ",
-        name: "Dragon ball Z",
-        type: "Anime, Action, Comedy, Drama, Fantasy, ",
-        paragraph: `Anime de acción y aventura que sigue a Goku y sus amigos luchando contra poderosos enemigos.`,
-        image : "../img/dbz.jpeg",
-        btn:{
-            name:"Mas acerca de esto",
-            href:"https://dragonball.fandom.com/es/wiki/Dragon_Ball_Z"
-            },
-        
-        article2:"One Piece",
-        name2: "One Piece",
-        type2: "Comedy, Adventure, Action fiction",
-        paragraph2: `Monkey D. Luffy y su tripulación de piratas buscan el One Piece para convertirse en el rey de los piratas.`,
-        image2: "../img/opp.webp",
-        btn2:{
-          name:"Mas acerca de esto",
-          href:"https://onepiece.fandom.com/es/wiki/One_Piece_(anime)",
-          },
-
-        article3:"Naruto",
-        name3: "Naruto",
-        type3: "Shonen manga, Action manga, Fantasy",
-        paragraph3: `Naruto es un joven ninja con un sueño de convertirse en el Hokage y proteger a su aldea. Aventuras, luchas y amistad.`,
-        image3: "../img/narutin.jpg",
-        btn3:{
-          name:"Mas acerca de esto",
-          href:"https://naruto.fandom.com/es/wiki/Naruto_(Anime)",
-          },
-        article4:"YGO",
-        name4: "Yu-Gi-Oh",
-        type4: "Adventure fiction, Science fantasy",
-        paragraph4: `Duelos de cartas con monstruos y hechizos para salvar el mundo de amenazas sobrenaturales en Yu-Gi-Oh!`,
-        image4 : "../img/ygo.png",
-        btn4:{
-            name:"Mas acerca de esto",
-            href:"https://yugioh.fandom.com/es/wiki/Yu-Gi-Oh!_(Serie)"
-            },
-        article5:"Super Campeones",
-        name5: "Super Campeones",
-        type5: "Shonen manga, Sports manga",
-        paragraph5: `"Super Campeones" es un anime sobre fútbol que cuenta la historia de Oliver Atom y su equipo mientras compiten en torneos y superan obstáculos.`,
-        image5 : "../img/sc.webp",
-        btn5:{
-            name:"Mas acerca de esto",
-            href:"https://supercampeones.fandom.com/es/wiki/Capit%C3%A1n_Tsubasa_(serie_de_1983)"
-            }, 
-        article6:"Death Note",
-        name6: "Death Note",
-        type6: " Horror, Drama, Mystery, Suspense, Thriller, Crime TV",
-        paragraph6: `Un cuaderno sobrenatural permite a su dueño matar a cualquier persona cuyo nombre escriba en él.
-        `,
-        image6 : "../img/deathnote.webp",
-        btn6:{
-            name:"Mas acerca de esto",
-            href:"https://deathnote.fandom.com/es/wiki/Death_Note_(Serie)"
-            }     
-       } 
-    ],
-    showPost(){
+    show(){
+    config.dataMyPost();
+    Object.assign(this, JSON.parse(localStorage.getItem("myPost")))
+      //creamos el worker 
+      const ws = new Worker("storage/wsMyPost.js", {type:"module"});
+      //enviamos un msg al worker
+      ws.postMessage({module: "showSecMyPost", data : this.post});
+      let id = [`#post`];
+      let count = 0;
+      //eso es lo que llega del worker
+      ws.addEventListener("message",(e)=>{
+          //parseamos lo que trae  el evento, o sea el msg
+          let doc = new  DOMParser().parseFromString(e.data, "text/html");
+          //insertamos en nuestro index por medio del selector id
+          document.querySelector(id[count]).append(...doc.body.children);
+          //terminamos el worker
+          (id.length-1==count) ? ws.terminate():count++;
+      });
+  },
+   /*  showPost(){
         this.post.forEach((val,id)=>{
             document.querySelector("#post").insertAdjacentHTML("beforeend", `
             <div class="col-md-6">
@@ -155,7 +114,7 @@ export default{
              `)
         })
     }
-   
+    */
 }
 
 /* */
